@@ -1,0 +1,43 @@
+.dashboard-container {
+  padding: 2rem;
+  margin-top: 80px; /* deja espacio para el header fijo */
+  text-align: center;
+  background-color: #2C3E50; /* gris claro para contraste con header oscuro */
+  min-height: calc(100vh - 80px);
+}
+
+.dashboard-title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: white; /* mismo tono base que el header */
+  font-weight: 700;
+}
+
+.dashboard-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.dashboard-button {
+  background-color: #2C3E50; /* mismo color que el header */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 250px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-button:hover {
+  background-color: #34495E; /* tono un poco más claro al hover */
+  transform: translateY(-2px);
+}
+
+.dashboard-button:active {
+  transform: translateY(0);
+}

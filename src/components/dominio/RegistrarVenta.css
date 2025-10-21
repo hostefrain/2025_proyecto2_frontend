@@ -1,0 +1,174 @@
+.registrar-venta {
+  padding: 2rem;
+  margin-top: 80px;
+  background: #f8f9fa;
+}
+
+.registrar-venta h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+/* 🔍 Cliente */
+.cliente-section {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cliente-filtro {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cliente-filtro input,
+.cliente-filtro select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.cliente-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cliente-card {
+  background: #f4f6f7;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cliente-card:hover {
+  background: #eaf2ff;
+}
+
+.cliente-card.seleccionado {
+  background: #cde2ff;
+  border-left: 4px solid #3498db;
+}
+
+.cliente-seleccionado {
+  margin-top: 0.8rem;
+  font-weight: 600;
+}
+
+/* 🛒 Productos */
+.productos-section {
+  margin-bottom: 2rem;
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.producto-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.producto-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.producto-card button {
+  margin-top: 0.5rem;
+  background: #3498db;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.producto-card button:hover {
+  background: #2980b9;
+}
+
+/* 🧾 Tabla del carrito */
+.carrito-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.carrito-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.carrito-section th, .carrito-section td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: center;
+}
+
+.carrito-section input {
+  width: 60px;
+  padding: 0.2rem;
+  text-align: center;
+}
+
+.total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.btn-registrar {
+  margin-top: 1rem;
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-registrar:hover {
+  background: #1e8449;
+}
+
+.cliente-lista {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.cliente-item {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.cliente-item:hover {
+  background: #f0f0f0;
+}
+
+.cliente-item.selected {
+  background: #d0e6f7;
+}
+
+.cliente-seleccionado {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}

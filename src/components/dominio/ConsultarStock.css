@@ -1,0 +1,67 @@
+.consultar-stock {
+  padding: 20px;
+  color: white;
+}
+
+.btn-volver {
+  margin-bottom: 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-volver:hover {
+  background: #0056b3;
+}
+
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtro-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.btn-limpiar {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.btn-limpiar:hover {
+  background: #b02a37;
+}
+
+.productos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.productos-table th, .productos-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.productos-table th {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.producto-imagen {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}

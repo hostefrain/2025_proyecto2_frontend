@@ -1,0 +1,86 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+
+  background: #2C3E50; /* Azul grisáceo elegante */
+  color: white;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.avatar {
+  background: #ECF0F1; /* Gris claro */
+  color: #2C3E50;     /* Azul gris oscuro */
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.user-menu span {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: #34495E;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown button:hover {
+  background: #f0f0f0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.nav-links button {
+  background: none;
+  border: none;
+  margin: 0 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+}
+
+.nav-links button:hover {
+  color: #BDC3C7; /* Gris más claro en hover */
+}
