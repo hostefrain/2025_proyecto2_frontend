@@ -23,6 +23,16 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
   const [dni, setDni] = useState('');
   const [nombre, setNombre] = useState('');
 
+  // Modal de registro/edición
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [clienteEditando, setClienteEditando] = useState<Cliente | null>(null);
+  const [formCliente, setFormCliente] = useState({
+    nombre: '',
+    telefono: '',
+    dni: ''
+  });
+
   useEffect(() => {
     fetchClientes();
   }, []);
@@ -68,6 +78,53 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
     setNombre('');
   };
 
+  const abrirModalRegistro = () => {
+    setModoEdicion(false);
+    setClienteEditando(null);
+    setFormCliente({ nombre: '', telefono: '', dni: '' });
+    setMostrarModal(true);
+  };
+
+  const abrirModalEdicion = (cliente: Cliente) => {
+    setModoEdicion(true);
+    setClienteEditando(cliente);
+    setFormCliente({
+      nombre: cliente.nombre,
+      telefono: cliente.telefono,
+      dni: cliente.dni
+    });
+    setMostrarModal(true);
+  };
+
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    setFormCliente({ nombre: '', telefono: '', dni: '' });
+    setClienteEditando(null);
+  };
+
+const handleSubmit = async () => {
+  if (!formCliente.nombre || !formCliente.telefono || !formCliente.dni) {
+    alert('Todos los campos son obligatorios');
+    return;
+  }
+
+  try {
+    if (modoEdicion && clienteEditando) {
+      // Actualizar cliente - CAMBIO: PUT → PATCH
+      await api.patch(`/cliente/${clienteEditando.id}`, formCliente);
+      alert('Cliente actualizado con éxito');
+    } else {
+      // Crear nuevo cliente
+      await api.post('/cliente', formCliente);
+      alert('Cliente registrado con éxito');
+    }
+    cerrarModal();
+    fetchClientes(); // Recargar la lista
+  } catch (error: any) {
+    alert(`Error: ${error.response?.data?.message || error.message}`);
+  }
+};
+
   if (loading) {
     return (
       <div className="consultar-clientes">
@@ -79,7 +136,13 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
 
   return (
     <div className="consultar-clientes">
-      <button onClick={onBack} className="btn-volver">← Volver</button>
+      <div className="header-container">
+        <button onClick={onBack} className="btn-volver">← Volver</button>
+        <button onClick={abrirModalRegistro} className="btn-nuevo-cliente">
+          + Nuevo Cliente
+        </button>
+      </div>
+
       <h2>👥 Consultar Clientes</h2>
 
       {error && <div className="error-message">{error}</div>}
@@ -119,6 +182,7 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
               <th>DNI</th>
               <th>Nombre</th>
               <th>Teléfono</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -127,10 +191,68 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
                 <td>{c.dni}</td>
                 <td>{c.nombre}</td>
                 <td>{c.telefono}</td>
+                <td>
+                  <button 
+                    className="btn-editar"
+                    onClick={() => abrirModalEdicion(c)}
+                  >
+                    ✏️ Editar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* Modal de registro/edición */}
+      {mostrarModal && (
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>{modoEdicion ? 'Editar Cliente' : 'Registrar Nuevo Cliente'}</h3>
+            
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div className="form-group">
+                <label>Nombre completo</label>
+                <input
+                  type="text"
+                  placeholder="Ingrese el nombre del cliente"
+                  value={formCliente.nombre}
+                  onChange={(e) => setFormCliente({ ...formCliente, nombre: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Teléfono</label>
+                <input
+                  type="tel"
+                  placeholder="Ej: +54 9 11 1234-5678"
+                  value={formCliente.telefono}
+                  onChange={(e) => setFormCliente({ ...formCliente, telefono: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>DNI</label>
+                <input
+                  type="text"
+                  placeholder="Ej: 12345678"
+                  value={formCliente.dni}
+                  onChange={(e) => setFormCliente({ ...formCliente, dni: e.target.value })}
+                />
+              </div>
+
+              <div className="modal-buttons">
+                <button type="button" className="btn-modal-cancelar" onClick={cerrarModal}>
+                  Cancelar
+                </button>
+                <button type="submit" className="btn-modal-guardar" onClick={handleSubmit}>
+                  {modoEdicion ? 'Actualizar' : 'Guardar'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

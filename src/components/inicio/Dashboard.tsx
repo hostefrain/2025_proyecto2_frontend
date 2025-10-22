@@ -4,6 +4,7 @@ import RegistrarVenta from "../dominio/RegistrarVenta";
 import ConsultarVentas from "../dominio/ConsultarVentas";
 import ConsultarStock from "../dominio/ConsultarStock";
 import ConsultarClientes from "../dominio/ConsultarClientes";
+import RegistrarCliente from "../dominio/RegistrarCliente";
 
 // 👇 Define las props que recibe Dashboard
 interface DashboardProps {
@@ -16,13 +17,20 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const renderFeature = () => {
     switch (selectedFeature) {
       case "Registrar Venta":
-        return <RegistrarVenta onBack={() => setSelectedFeature("Dashboard")} />;
+        return (
+        <RegistrarVenta
+        onBack={() => setSelectedFeature("Dashboard")}
+        onRegistrarCliente={() => setSelectedFeature("Registrar Cliente")} 
+        />
+      );
       case "Consultar Ventas":
         return <ConsultarVentas onBack={() => {setSelectedFeature("Dashboard")}} />;
       case "Consultar Productos":
         return <ConsultarStock onBack={() => setSelectedFeature("Dashboard")} />;
       case "Consultar Clientes":
         return <ConsultarClientes onBack={() => setSelectedFeature("Dashboard")} />;
+      case "Registrar Cliente": // 👈 nuevo caso
+        return <RegistrarCliente onBack={() => setSelectedFeature("Registrar Venta")} />;
       default:
         return (
           <div className="dashboard-container">

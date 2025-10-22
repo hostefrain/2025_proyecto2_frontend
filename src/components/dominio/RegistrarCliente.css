@@ -1,0 +1,106 @@
+.registrar-cliente-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #2a394a; /* Fondo oscuro coherente con tu dashboard */
+  min-height: 100vh;
+  padding: 60px 20px;
+  color: #e6e6e6;
+}
+
+.registrar-cliente-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 30px 0 40px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.registrar-cliente-form {
+  background-color: #2c3e50;
+  padding: 40px 50px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.registrar-cliente-form label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #cfd8dc;
+  margin-bottom: 5px;
+}
+
+.registrar-cliente-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #4a6072;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.registrar-cliente-form input:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 6px rgba(108, 99, 255, 0.4);
+}
+
+.registrar-cliente-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.registrar-cliente-button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.registrar-cliente-button.save {
+  background-color: #6c63ff;
+  color: #fff;
+}
+
+.registrar-cliente-button.save:hover {
+  background-color: #574bff;
+  transform: scale(1.03);
+}
+
+.registrar-cliente-button.cancel {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.registrar-cliente-button.cancel:hover {
+  background-color: #c0392b;
+  transform: scale(1.03);
+}
+
+.volver-button {
+  background-color: #9b5de5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.volver-button:hover {
+  background-color: #7b3fe0;
+  transform: scale(1.05);
+}
