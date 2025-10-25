@@ -15,9 +15,8 @@ const Header: React.FC<HeaderProps> = ({ user, onSelectFeature, onLogout }) => {
 
   // Definimos funcionalidades por rol
   const roleFeatures: Record<string, string[]> = {
-    admin: ["Usuarios", "Reportes", "Configuración"],
-    cliente: ["Rol: cliente"],
-    vendedor: ["Rol: Vendedor"],
+    admin: ["Reportes", "Admin"],
+    vendedor: ["Vendedor"],
   };
 
   return (

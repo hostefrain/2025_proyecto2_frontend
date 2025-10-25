@@ -9,6 +9,7 @@ interface AuthContextType {
   login: (token: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isAdmin: () => boolean; // 👈 Agregar esta función
   loading: boolean;
 }
 
@@ -76,10 +77,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('token');
   };
 
+  // 👇 Nueva función para verificar si es admin
+  const isAdmin = (): boolean => {
+    return user?.role === 'admin';
+  };
+
   const isAuthenticated = !!user && !!token;
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, loading }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      token, 
+      login, 
+      logout, 
+      isAuthenticated, 
+      isAdmin, // 👈 Incluir en el provider
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   );
