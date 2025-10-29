@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../api/axios';
-import './ConsultarClientes.css';
-
-interface Cliente {
-  id: string;
-  dni: string;
-  nombre: string;
-  telefono: string;
-}
+import './css/ConsultarClientes.css';
+import { getAllClientes, createNuevoCliente, updateCliente} from '../../services/clienteService';
+import type { Cliente } from '../../services/clienteService';
 
 interface ConsultarClientesProps {
   onBack: () => void;
@@ -45,11 +39,10 @@ const ConsultarClientes: React.FC<ConsultarClientesProps> = ({ onBack }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/cliente');
-      setClientes(response.data);
+      const data = await getAllClientes(); // 👈 Usar servicio
+      setClientes(data);
     } catch (err: any) {
-      console.error(err);
-      setError('Error al cargar los clientes');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -110,18 +103,18 @@ const handleSubmit = async () => {
 
   try {
     if (modoEdicion && clienteEditando) {
-      // Actualizar cliente - CAMBIO: PUT → PATCH
-      await api.patch(`/cliente/${clienteEditando.id}`, formCliente);
+      // 👇 Usar servicio
+      await updateCliente(clienteEditando.id!, formCliente);
       alert('Cliente actualizado con éxito');
     } else {
-      // Crear nuevo cliente
-      await api.post('/cliente', formCliente);
+      // 👇 Usar servicio
+      await createNuevoCliente(formCliente);
       alert('Cliente registrado con éxito');
     }
     cerrarModal();
-    fetchClientes(); // Recargar la lista
+    fetchClientes();
   } catch (error: any) {
-    alert(`Error: ${error.response?.data?.message || error.message}`);
+    alert(error.message);
   }
 };
 

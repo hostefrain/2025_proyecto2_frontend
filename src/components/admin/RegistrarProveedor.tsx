@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./RegistrarRelacion.css";
-import api from "../../api/axios";
+import "./css/RegistrarRelacion.css";
+import { createProveedor } from "../../services/proveedorService"
 
 interface RegistrarProveedorProps {
   onSuccess: (nuevoProveedor: any) => void;
@@ -19,9 +19,9 @@ const RegistrarProveedor: React.FC<RegistrarProveedorProps> = ({ onSuccess, onCa
     }
 
     try {
-      const response = await api.post("/proveedor", { nombre });
+      const response = await createProveedor({ nombre })
       alert("Proveedor creado con éxito");
-      onSuccess(response.data);
+      onSuccess(response);
       setNombre("");
     } catch (error: any) {
       alert(`Error al crear proveedor: ${error.response?.data?.message || error.message}`);

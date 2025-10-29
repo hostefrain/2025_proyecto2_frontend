@@ -4,20 +4,12 @@ import type { User } from '../../types/user';
 
 interface HeaderProps {
   user: User;
-  onSelectFeature: (feature: string) => void;
   onLogout: () => void;
+  // onSelectFeature eliminado ❌
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onSelectFeature, onLogout }) => {
-
+const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   const [openProfile, setOpenProfile] = useState(false);
-  
-
-  // Definimos funcionalidades por rol
-  const roleFeatures: Record<string, string[]> = {
-    admin: ["Reportes", "Admin"],
-    vendedor: ["Vendedor"],
-  };
 
   return (
     <header className="header">
@@ -32,13 +24,12 @@ const Header: React.FC<HeaderProps> = ({ user, onSelectFeature, onLogout }) => {
         )}
       </div>
 
-      <nav className="nav-links">
-        {roleFeatures[user.role].map((feature) => (
-          <button key={feature} onClick={() => onSelectFeature(feature)}>
-            {feature}
-          </button>
-        ))}
-      </nav>
+      {/* Puedes mostrar información adicional del rol aquí si quieres */}
+      <div className="user-info">
+        <span className="user-role-badge">
+          {user.role === 'admin' ? '🔐 Administrador' : '👤 Vendedor'}
+        </span>
+      </div>
     </header>
   );
 };

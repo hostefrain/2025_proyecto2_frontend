@@ -1,33 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/axios';
-import './ConsultarStock.css';
-
-interface Categoria {
-  id_categoria: string;
-  nombre: string;
-}
-
-interface Marca {
-  id_marca: string;
-  nombre: string;
-}
-
-interface Proveedor {
-  id_proveedor: string;
-  nombre: string;
-}
-
-interface Producto {
-  id_producto: string;
-  nombre: string;
-  descripcion: string;
-  precio: number;
-  imagen: string;
-  stock: number;
-  categoria: Categoria;
-  marca: Marca;
-  proveedor: Proveedor;
-}
+import './css/ConsultarStock.css';
+import { getAllProductos } from '../../services/productoService';
+import type { Producto } from '../../services/productoService';
 
 interface ConsultarStockProps {
   onBack: () => void;
@@ -59,15 +33,10 @@ const ConsultarStock: React.FC<ConsultarStockProps> = ({ onBack }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/producto');
-      const data = response.data.map((p: any) => ({
-        ...p,
-        precio: Number(p.precio),
-      }));
+      const data = await getAllProductos(); // 👈 Usar servicio
       setProductos(data);
     } catch (err: any) {
-      console.error(err);
-      setError('Error al cargar los productos');
+      setError(err.message);
     } finally {
       setLoading(false);
     }

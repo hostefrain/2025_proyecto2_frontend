@@ -1,0 +1,51 @@
+/* Estilo para el contenedor principal */
+.dashboard-container {
+  /* Propiedades para centrar el contenido y limitar el ancho del reporte */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido horizontalmente */
+  padding: 20px;
+  width: 100%; 
+  min-height: 95vh; 
+  background-color: #36404a; 
+}
+
+/* Estilo para el botón de regreso */
+.back-button {
+  /* Alinea el botón a la izquierda del contenido del dashboard (90% de ancho) */
+  align-self: flex-start;
+  /* IMPORTANTE: Necesitamos alinear este botón con el borde del iframe */
+  width: 90vw; /* El 90% del viewport width */
+  max-width: 1200px; /* Limita el ancho máximo para pantallas muy grandes */
+  padding: 10px 0; /* Espacio vertical, no horizontal (el texto se alineará a la izquierda del 90%) */
+  text-align: left; /* Alinea el texto a la izquierda del contenedor de 90% */
+  
+  /* Resto de estilos para el botón (visuales) */
+  background: none; /* Quitamos el fondo para que solo se vea el texto */
+  color: #f3f4f6; 
+  border: none;
+  margin-bottom: 5px; 
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.back-button:hover {
+  color: #a0a0a0;
+}
+
+/* 🚀 ESTILO CLAVE: Aumenta el Ancho del Iframe */
+.dashboard-iframe {
+  /* Ancho para que el iframe sea más grande */
+  width: 90vw; 
+  /* Limita el ancho máximo para que no se vea ridículo en pantallas gigantes */
+  max-width: 1200px; 
+  
+  /* Altura y otros estilos */
+  height: calc(100vh - 80px); 
+  border: none;
+  background-color: white; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+  border-radius: 8px; 
+}

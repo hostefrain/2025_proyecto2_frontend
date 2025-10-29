@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/axios';
-import './ConsultarMarcas.css';
-
-interface Marca {
-  id_marca: string;
-  nombre: string;
-  descripcion: string;
-  logo: string;
-}
+import './css/ConsultarMarcas.css';
+import { createMarca, deleteMarca, getAllMarcas, updateMarca, type Marca } from '../../services/marcaService';
 
 interface ConsultarMarcasProps {
   onBack: () => void;
@@ -45,8 +38,8 @@ const ConsultarMarcas: React.FC<ConsultarMarcasProps> = ({ onBack }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/marca');
-      setMarcas(response.data);
+      const response = await getAllMarcas()
+      setMarcas(response);
     } catch (err: any) {
       console.error(err);
       setError('Error al cargar las marcas');
@@ -113,7 +106,7 @@ const ConsultarMarcas: React.FC<ConsultarMarcasProps> = ({ onBack }) => {
     }
 
     try {
-      await api.post('/marca', formData);
+      await createMarca(formData)
       alert('Marca creada con éxito');
       cerrarModales();
       fetchMarcas();
@@ -132,7 +125,7 @@ const ConsultarMarcas: React.FC<ConsultarMarcasProps> = ({ onBack }) => {
     }
 
     try {
-      await api.patch(`/marca/${marcaEditando!.id_marca}`, formData);
+      await updateMarca(marcaEditando!.id_marca, formData)
       alert('Marca actualizada con éxito');
       cerrarModales();
       fetchMarcas();
@@ -148,7 +141,7 @@ const ConsultarMarcas: React.FC<ConsultarMarcasProps> = ({ onBack }) => {
     }
 
     try {
-      await api.delete(`/marca/${id}`);
+      await deleteMarca(id)
       alert('Marca eliminada con éxito');
       fetchMarcas();
     } catch (error: any) {

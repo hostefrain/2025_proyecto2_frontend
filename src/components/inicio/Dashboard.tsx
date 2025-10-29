@@ -8,6 +8,7 @@ import RegistrarCliente from "../dominio/RegistrarCliente";
 import RegistrarProducto from "../admin/RegistrarProducto";
 import ConsultarProductosAdmin from "../admin/ConsultarProductosAdmin";
 import ConsultarMarcas from "../admin/ConsultarMarcas";
+import DashboardReporte from "../admin/DashboardReporte";
 import ConsultarProveedores
  from "../admin/ConsultarProveedores";
 import { useAuth } from "../../context/AuthContext";
@@ -49,10 +50,9 @@ const Dashboard: React.FC = () => {
         return <ConsultarMarcas onBack={() => setSelectedFeature("Dashboard")} />;
       case "Consultar Proveedores":
         return <ConsultarProveedores onBack={() => setSelectedFeature("Dashboard")} />;
+      case "Ver Reporte":
+        return <DashboardReporte onBack={() => setSelectedFeature("Dashboard")}/>;
       
-      // Nuevos casos para Admin
-      case "Consultar Proveedores":
-        return <div className="placeholder">Consultar Proveedores (Por implementar)</div>;
       
       default:
         return (
@@ -124,6 +124,13 @@ const Dashboard: React.FC = () => {
                     onClick={() => setSelectedFeature("Consultar Proveedores")}
                   >
                     Consultar Proveedores
+                  </button>
+
+                  <button
+                    className="dashboard-button admin-button"
+                    onClick={() => setSelectedFeature("Ver Reporte")}
+                  >
+                    Ver Reporte
                   </button>
                 </div>
               </div>

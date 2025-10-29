@@ -1,32 +1,8 @@
 // src/components/dominio/ConsultarVentas.tsx
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import './ConsultarVentas.css';
-
-interface Cliente {
-  id: string;
-  nombre: string;
-  dni: string;
-  telefono?: string;
-}
-
-interface DetalleVenta {
-  id_detalle: string;
-  cantidad: number;
-  precioSubTotal: number;
-  producto: {
-    nombre: string;
-    precio: number;
-  };
-}
-
-interface Venta {
-  id_venta: string;
-  precioTotal: number;
-  createdAt: string;
-  cliente: Cliente;
-  detalles: DetalleVenta[];
-}
+import './css/ConsultarVentas.css';
+import { getAllVentas, type Venta } from "../../services/ventaService";
 
 interface ConsultarVentasProps {
   onBack: () => void;
@@ -58,8 +34,8 @@ const fetchVentas = async () => {
   setLoading(true);
   setError('');
   try {
-    const response = await api.get('/venta');
-    const data = response.data.map((venta: any) => ({
+    const response = await getAllVentas()
+    const data = response.map((venta: any) => ({
       ...venta,
       precioTotal: Number(venta.precioTotal),
       detalles: venta.detalles.map((detalle: any) => ({

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
-import "./login.css"; // reutilizamos estilos
+import "./login.css";
 import { Link } from "react-router-dom";
+import { forgotPassword } from "../services/authService"; // 👈 Importar servicio
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -16,13 +16,12 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:3000/auth/forgot-password", {
-        email,
-      });
-      setMessage("Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.");
+      // 👇 Usar el servicio
+      const data = await forgotPassword({ email });
+      setMessage(data.message || "Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.");
       setEmail("");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al solicitar recuperación");
+      setError(err.message);
     } finally {
       setLoading(false);
     }

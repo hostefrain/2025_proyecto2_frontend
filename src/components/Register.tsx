@@ -1,8 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
-import "./login.css"; // usamos los mismos estilos
-
+import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService"; // 👈 Importar servicio
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -27,7 +26,8 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await axios.post("http://localhost:3000/auth/register", {
+      // 👇 Usar el servicio
+      await registerUser({
         name,
         email,
         password,
@@ -37,10 +37,10 @@ export default function Register() {
       setSuccess("Registro exitoso. Revisa tu correo para activar la cuenta.");
 
       setTimeout(() => {
-        navigate("/"); // Redirige a la ruta del login
+        navigate("/");
       }, 2000);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error en el registro");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -101,10 +101,9 @@ export default function Register() {
         </button>
 
         <p className="login-register">
-        ¿Ya tienes cuenta?{" "}
-        <Link to="/">Inicia sesión</Link>
+          ¿Ya tienes cuenta?{" "}
+          <Link to="/">Inicia sesión</Link>
         </p>
-
       </form>
     </div>
   );

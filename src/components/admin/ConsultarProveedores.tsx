@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import './ConsultarProveedores.css';
-
-interface Proveedor {
-  id_proveedor: string;
-  nombre: string;
-}
+import './css/ConsultarProveedores.css';
+import { createProveedor, deleteProveedor, updateProveedor, type Proveedor } from '../../services/proveedorService'
+import { getAllProveedores } from '../../services/productoService';
 
 interface ConsultarProveedoresProps {
   onBack: () => void;
@@ -39,8 +36,8 @@ const ConsultarProveedores: React.FC<ConsultarProveedoresProps> = ({ onBack }) =
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/proveedor');
-      setProveedores(response.data);
+      const response = await getAllProveedores()
+      setProveedores(response);
     } catch (err: any) {
       console.error(err);
       setError('Error al cargar los proveedores');
@@ -95,7 +92,7 @@ const ConsultarProveedores: React.FC<ConsultarProveedoresProps> = ({ onBack }) =
     }
 
     try {
-      await api.post('/proveedor', { nombre: nombreProveedor });
+      await createProveedor({ nombre: nombreProveedor })
       alert('Proveedor creado con éxito');
       cerrarModales();
       fetchProveedores();
@@ -114,7 +111,7 @@ const ConsultarProveedores: React.FC<ConsultarProveedoresProps> = ({ onBack }) =
     }
 
     try {
-      await api.patch(`/proveedor/${proveedorEditando!.id_proveedor}`, { nombre: nombreProveedor });
+      await updateProveedor(proveedorEditando!.id_proveedor,{ nombre: nombreProveedor })
       alert('Proveedor actualizado con éxito');
       cerrarModales();
       fetchProveedores();
@@ -130,7 +127,7 @@ const ConsultarProveedores: React.FC<ConsultarProveedoresProps> = ({ onBack }) =
     }
 
     try {
-      await api.delete(`/proveedor/${id}`);
+      await deleteProveedor(id)
       alert('Proveedor eliminado con éxito');
       fetchProveedores();
     } catch (error: any) {

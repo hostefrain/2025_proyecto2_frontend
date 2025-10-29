@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./RegistrarRelacion.css";
-import api from "../../api/axios";
+import "./css/RegistrarRelacion.css";
+import { createMarca } from '../../services/marcaService';
 
 interface RegistrarMarcaProps {
   onSuccess: (nuevaMarca: any) => void;
@@ -39,9 +39,9 @@ const RegistrarMarca: React.FC<RegistrarMarcaProps> = ({ onSuccess, onCancel }) 
     }
 
     try {
-      const response = await api.post("/marca", formData);
+      const response = await createMarca(formData)
       alert("Marca creada con éxito");
-      onSuccess(response.data);
+      onSuccess(response);
       setFormData({ nombre: "", descripcion: "", logo: "" });
     } catch (error: any) {
       alert(`Error al crear marca: ${error.response?.data?.message || error.message}`);

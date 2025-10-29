@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // 👈 Importa el hook
+import { useAuth } from "../context/AuthContext";
+import { loginUser } from "../services/authService"; // 👈 Importar servicio
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,8 +10,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
-  const { login } = useAuth(); // 👈 Usa el contexto
-  const navigate = useNavigate(); // 👈 Para navegación
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,18 +19,13 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", {
-        email,
-        password,
-      });
-
-      // 👇 Usa la función login del contexto en lugar de guardar directamente
-      await login(res.data.access_token);
+      // 👇 Usar el servicio
+      const data = await loginUser({ email, password });
       
-      // 👇 Navega con react-router en lugar de window.location
+      await login(data.access_token);
       navigate("/inicio");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error en el login");
+      setError(err.message);
     } finally {
       setLoading(false);
     }

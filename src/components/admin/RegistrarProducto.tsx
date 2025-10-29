@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from "react";
-import "./RegistrarProducto.css";
-import api from "../../api/axios";
+import "./css/RegistrarProducto.css";
 import RegistrarCategoria from "./RegistrarCategoria";
 import RegistrarMarca from "./RegistrarMarca";
 import RegistrarProveedor from "./RegistrarProveedor";
+import { createProducto, getAllCategorias, getAllMarcas, getAllProveedores } from '../../services/productoService';
+import type { Categoria } from "../../services/productoService";
+import type { Marca } from "../../services/productoService";
+import type { Proveedor } from "../../services/productoService";
 
 interface RegistrarProductoProps {
   onBack: () => void;
-}
-
-interface Categoria {
-  id_categoria: string;
-  nombre: string;
-}
-
-interface Marca {
-  id_marca: string;
-  nombre: string;
-}
-
-interface Proveedor {
-  id_proveedor: string;
-  nombre: string;
 }
 
 const RegistrarProducto: React.FC<RegistrarProductoProps> = ({ onBack }) => {
@@ -57,14 +45,14 @@ const RegistrarProducto: React.FC<RegistrarProductoProps> = ({ onBack }) => {
     setLoading(true);
     try {
       const [categoriasRes, marcasRes, proveedoresRes] = await Promise.all([
-        api.get("/categoria"),
-        api.get("/marca"),
-        api.get("/proveedor"),
+        getAllCategorias(),
+        getAllMarcas(),
+        getAllProveedores(),
       ]);
 
-      setCategorias(Array.isArray(categoriasRes.data) ? categoriasRes.data : []);
-      setMarcas(Array.isArray(marcasRes.data) ? marcasRes.data : []);
-      setProveedores(Array.isArray(proveedoresRes.data) ? proveedoresRes.data : []);
+      setCategorias(Array.isArray(categoriasRes) ? categoriasRes : []);
+      setMarcas(Array.isArray(marcasRes) ? marcasRes : []);
+      setProveedores(Array.isArray(proveedoresRes) ? proveedoresRes : []);
     } catch (error) {
       console.error("Error al cargar datos:", error);
       alert("Error al cargar categorías, marcas o proveedores");
@@ -88,22 +76,22 @@ const RegistrarProducto: React.FC<RegistrarProductoProps> = ({ onBack }) => {
 
   // Callbacks cuando se crea una nueva categoría/marca/proveedor
   const handleCategoriaCreada = async (nuevaCategoria: any) => {
-    const categoriasRes = await api.get("/categoria");
-    setCategorias(categoriasRes.data);
+    const categoriasRes = await getAllCategorias()
+    setCategorias(categoriasRes);
     setFormData(prev => ({ ...prev, id_categoria: nuevaCategoria.id_categoria }));
     setMostrarModalCategoria(false);
   };
 
   const handleMarcaCreada = async (nuevaMarca: any) => {
-    const marcasRes = await api.get("/marca");
-    setMarcas(marcasRes.data);
+    const marcasRes = await getAllMarcas()
+    setMarcas(marcasRes);
     setFormData(prev => ({ ...prev, id_marca: nuevaMarca.id_marca }));
     setMostrarModalMarca(false);
   };
 
   const handleProveedorCreado = async (nuevoProveedor: any) => {
-    const proveedoresRes = await api.get("/proveedor");
-    setProveedores(proveedoresRes.data);
+    const proveedoresRes = await getAllProveedores()
+    setProveedores(proveedoresRes);
     setFormData(prev => ({ ...prev, id_proveedor: nuevoProveedor.id_proveedor }));
     setMostrarModalProveedor(false);
   };
@@ -153,9 +141,9 @@ const RegistrarProducto: React.FC<RegistrarProductoProps> = ({ onBack }) => {
         id_proveedor: formData.id_proveedor,
       };
 
-      const response = await api.post("/producto", payload);
+      const response = await createProducto(payload)
       alert("¡Producto registrado con éxito!");
-      console.log("✅ Producto creado:", response.data);
+      console.log("✅ Producto creado:", response);
 
       setFormData({
         nombre: "",

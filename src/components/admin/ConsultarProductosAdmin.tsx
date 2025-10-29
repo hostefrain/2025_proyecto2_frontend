@@ -1,36 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/axios';
-import './ConsultarProductosAdmin.css';
-
-interface Categoria {
-  id_categoria: string;
-  nombre: string;
-}
-
-interface Marca {
-  id_marca: string;
-  nombre: string;
-}
-
-interface Proveedor {
-  id_proveedor: string;
-  nombre: string;
-}
-
-interface Producto {
-  id_producto: string;
-  nombre: string;
-  descripcion: string;
-  precio: number;
-  imagen: string;
-  stock: number;
-  id_categoria: string;
-  id_marca: string;
-  id_proveedor: string;
-  categoria: Categoria;
-  marca: Marca;
-  proveedor: Proveedor;
-}
+import './css/ConsultarProductosAdmin.css';
+import { 
+  getAllProductos, 
+  updateProducto, 
+  deleteProducto,
+  getAllCategorias,
+  getAllMarcas,
+  getAllProveedores 
+} from '../../services/productoService';
+import type { Categoria } from '../../services/productoService';
+import type { Producto } from '../../services/productoService';
+import type { Marca } from '../../services/productoService';
+import type { Proveedor } from '../../services/productoService';
 
 interface ConsultarProductosAdminProps {
   onBack: () => void;
@@ -81,15 +62,10 @@ const ConsultarProductosAdmin: React.FC<ConsultarProductosAdminProps> = ({ onBac
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/producto');
-      const data = response.data.map((p: any) => ({
-        ...p,
-        precio: Number(p.precio),
-      }));
+      const data = await getAllProductos();
       setProductos(data);
     } catch (err: any) {
-      console.error(err);
-      setError('Error al cargar los productos');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -98,18 +74,17 @@ const ConsultarProductosAdmin: React.FC<ConsultarProductosAdminProps> = ({ onBac
   const fetchRelaciones = async () => {
     setLoadingModal(true);
     try {
-      const [categoriasRes, marcasRes, proveedoresRes] = await Promise.all([
-        api.get('/categoria'),
-        api.get('/marca'),
-        api.get('/proveedor'),
+      const [categoriasData, marcasData, proveedoresData] = await Promise.all([
+        getAllCategorias(),
+        getAllMarcas(),
+        getAllProveedores(),
       ]);
 
-      setCategorias(categoriasRes.data);
-      setMarcas(marcasRes.data);
-      setProveedores(proveedoresRes.data);
-    } catch (error) {
-      console.error('Error al cargar relaciones:', error);
-      alert('Error al cargar categorías, marcas o proveedores');
+      setCategorias(categoriasData);
+      setMarcas(marcasData);
+      setProveedores(proveedoresData);
+    } catch (error: any) {
+      alert(error.message);
     } finally {
       setLoadingModal(false);
     }
@@ -170,9 +145,9 @@ const ConsultarProductosAdmin: React.FC<ConsultarProductosAdminProps> = ({ onBac
       precio: producto.precio.toString(),
       stock: producto.stock.toString(),
       imagen: producto.imagen || '',
-      id_categoria: producto.id_categoria,
-      id_marca: producto.id_marca,
-      id_proveedor: producto.id_proveedor,
+      id_categoria: producto.id_categoria || '',
+      id_marca: producto.id_marca || '',
+      id_proveedor: producto.id_proveedor || '',
     });
     setMostrarModalEditar(true);
     await fetchRelaciones();
@@ -231,12 +206,12 @@ const ConsultarProductosAdmin: React.FC<ConsultarProductosAdminProps> = ({ onBac
         id_proveedor: formData.id_proveedor,
       };
 
-      await api.patch(`/producto/${productoEditando!.id_producto}`, payload);
+      await updateProducto(productoEditando!.id_producto, payload);
       alert('Producto actualizado con éxito');
       cerrarModalEditar();
       fetchProductos();
     } catch (error: any) {
-      alert(`Error al actualizar: ${error.response?.data?.message || error.message}`);
+      alert(error.message);
     }
   };
 
@@ -246,11 +221,11 @@ const ConsultarProductosAdmin: React.FC<ConsultarProductosAdminProps> = ({ onBac
     }
 
     try {
-      await api.delete(`/producto/${id}`);
+      await deleteProducto(id);
       alert('Producto eliminado con éxito');
       fetchProductos();
     } catch (error: any) {
-      alert(`Error al eliminar: ${error.response?.data?.message || error.message}`);
+      alert(error.message);
     }
   };
 
